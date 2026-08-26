@@ -1,18 +1,18 @@
-import { useState } from "react"
+import { lazy, useEffect, useRef, useState } from "react"
 import { languages } from "./languages"
 import { clsx } from "clsx"
+import { getFarewellText } from "./util"
+
 
 /**
- * Goal: Add in the incorrect guesses mechanism to the game
+ * Challenge: Bid farewell to each programming language
+ * as it gets erased from existance 👋😭
  * 
- * Challenge:
- * Conditionally render either the "won" or "lost" statuses
- * from the design, both the text and the styles, based on the
- * new derived variables.
+ * Use the `getFarewellText` function from the new utils.js
+ * file to generate the text.
  * 
- * Note: We always want the surrounding `section` to be rendered,
- * so only change the content inside that section. Otherwise the
- * content on the page would jump around a bit too much.
+ * Check hint.md if you're feeling stuck, but do your best
+ * to solve the challenge without the hint! 🕵️
  */
 
 
@@ -21,6 +21,7 @@ export default function AssemblyEndgame() {
      // State values
     const [currentWord, setCurrentWord] = useState("react")
     const [guessedLetters, setGuessedLetters] = useState([]) 
+
     
     // Derived values
     const wrongGuessCount = 
@@ -30,8 +31,10 @@ export default function AssemblyEndgame() {
     const isGameLost = wrongGuessCount >= languages.length - 1
     const isGameOver = isGameWon || isGameLost
 
+    const lastGuessedLetter = guessedLetters[guessedLetters.length - 1]
+    const isLastGuessIncorrect = !currentWord.includes(lastGuessedLetter)
+   
 
-    
     // Static values
     const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
@@ -94,13 +97,21 @@ export default function AssemblyEndgame() {
     const gameStatusClass = clsx("game-status",
         {
             won: isGameWon,
-            lost: isGameLost
+            lost: isGameLost,
+            farewell: !isGameOver && isLastGuessIncorrect && wrongGuessCount>0
         }
     )
 
     function renderGameStatus() {
         if (!isGameOver) {
-            return null
+            return wrongGuessCount>0 && isLastGuessIncorrect ?
+                
+                <>
+                    <p className="farewell-message">
+                        {getFarewellText(languages[wrongGuessCount - 1].name)}
+                    </p>
+                </>
+                :null
         }
 
         if (isGameWon) {
@@ -119,6 +130,8 @@ export default function AssemblyEndgame() {
             )
         }
     }
+
+     
 
     return (
         <main>
