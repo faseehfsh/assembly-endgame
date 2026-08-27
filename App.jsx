@@ -2,6 +2,7 @@ import { lazy, useEffect, useRef, useState } from "react"
 import { languages } from "./languages"
 import { clsx } from "clsx"
 import { getFarewellText, getRandomWord } from "./util"
+import ReactConfetti from "react-confetti"
 
 /**
  * Backlog:
@@ -9,16 +10,14 @@ import { getFarewellText, getRandomWord } from "./util"
  * ✅ Farewell messages in status section
  * ✅ Disable the keyboard when the game is over
  * ✅ Fix a11y issues
- * - Choose a random word from a list of words
- * - Make the New Game button reset the game
+ * ✅ Choose a random word from a list of words
+ * ✅ Make the New Game button reset the game
+ * - Reveal what the word was if the user loses the game
  * - Confetti drop when the user wins
  * 
- * Challenge: Choose a random word from a list of words
- * 
- * 1. Create a new function in utils.js that chooses a random
- *    word from the imported array of words and returns it
- * 2. import the function into this file
- * 3. Figure out where to use that function.
+ * Challenge: Reveal the missing letters of the word if the user
+ * loses the game. Style the missing letters to have the same red
+ * color as the wrong letter keys.
  */
 
 export default function AssemblyEndgame() {
@@ -63,12 +62,24 @@ export default function AssemblyEndgame() {
             </span>
         )
     })
+
+    const styleLost = {
+        color: "#EC5D49"
+    }
     
-    const letterElements = currentWord.split("").map((letter, index) => (
-        <span key={index}>
-            {guessedLetters.includes(letter)? letter.toUpperCase(): ""}
-        </span>
-    ))
+    const letterElements = currentWord.split("").map((letter, index) => {
+
+        const shouldRevealLetter = guessedLetters.includes(letter) || isGameLost
+        const letterClassName = clsx(
+            isGameLost && !guessedLetters.includes(letter) && "missed-letter"
+        )
+        return (
+            <span key={index} className={letterClassName}>
+                {shouldRevealLetter ? letter.toUpperCase() : ""}
+            </span>
+        )
+    })
+
     
     const keyboardElements = alphabet.split("").map(letter => {
 
@@ -140,10 +151,23 @@ export default function AssemblyEndgame() {
         }
     }
 
-    console.log(`You have ${numGuessesLeft} attempts left`)
+    function startNewGame() {
+        setCurrentWord(getRandomWord())
+        setGuessedLetters([])
+    }
+
+    // console.log(`You have ${numGuessesLeft} attempts left`)
 
     return (
         <main>
+            {
+                isGameWon &&
+                <ReactConfetti
+                    recycle={false}
+                    numberOfPieces={1000}
+                />
+            }
+            
             <header>
                 <h1>Assembly: Endgame</h1>
                 <p>Guess the word within 8 attempts to keep the
@@ -189,7 +213,7 @@ export default function AssemblyEndgame() {
             <section className="keyboard">
                 {keyboardElements}
             </section>
-            {isGameOver && <button className="new-game">New Game</button>}
+            {isGameOver && <button className="new-game" onClick={startNewGame}>New Game</button>}
         </main>
     )
 }
