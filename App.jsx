@@ -1,28 +1,33 @@
 import { lazy, useEffect, useRef, useState } from "react"
 import { languages } from "./languages"
 import { clsx } from "clsx"
-import { getFarewellText } from "./util"
-
+import { getFarewellText, getRandomWord } from "./util"
 
 /**
- * Challenge: Bid farewell to each programming language
- * as it gets erased from existance 👋😭
+ * Backlog:
  * 
- * Use the `getFarewellText` function from the new utils.js
- * file to generate the text.
+ * ✅ Farewell messages in status section
+ * ✅ Disable the keyboard when the game is over
+ * ✅ Fix a11y issues
+ * - Choose a random word from a list of words
+ * - Make the New Game button reset the game
+ * - Confetti drop when the user wins
  * 
- * Check hint.md if you're feeling stuck, but do your best
- * to solve the challenge without the hint! 🕵️
+ * Challenge: Choose a random word from a list of words
+ * 
+ * 1. Create a new function in utils.js that chooses a random
+ *    word from the imported array of words and returns it
+ * 2. import the function into this file
+ * 3. Figure out where to use that function.
  */
-
 
 export default function AssemblyEndgame() {
 
-     // State values
-    const [currentWord, setCurrentWord] = useState("react")
+    // State values
+    const [currentWord, setCurrentWord] = useState(() => getRandomWord())
     const [guessedLetters, setGuessedLetters] = useState([]) 
-
     
+    console.log(currentWord)
     // Derived values
     const wrongGuessCount = 
         guessedLetters.filter(letter => !currentWord.includes(letter)).length
