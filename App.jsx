@@ -7,17 +7,8 @@ import ReactConfetti from "react-confetti"
 /**
  * Backlog:
  * 
- * ✅ Farewell messages in status section
- * ✅ Disable the keyboard when the game is over
- * ✅ Fix a11y issues
- * ✅ Choose a random word from a list of words
- * ✅ Make the New Game button reset the game
- * - Reveal what the word was if the user loses the game
- * - Confetti drop when the user wins
+ * 1. Display the remaining guesses count
  * 
- * Challenge: Reveal the missing letters of the word if the user
- * loses the game. Style the missing letters to have the same red
- * color as the wrong letter keys.
  */
 
 export default function AssemblyEndgame() {
@@ -30,7 +21,7 @@ export default function AssemblyEndgame() {
     // Derived values
     const wrongGuessCount = 
         guessedLetters.filter(letter => !currentWord.includes(letter)).length
-    const numGuessesLeft = languages.length - 1 - wrongGuessCount
+    const numGuessesLeft = (languages.length - 1) - wrongGuessCount
     const isGameWon = 
         currentWord.split("").every(letter => guessedLetters.includes(letter))
     const isGameLost = wrongGuessCount >= languages.length - 1
@@ -171,7 +162,8 @@ export default function AssemblyEndgame() {
             <header>
                 <h1>Assembly: Endgame</h1>
                 <p>Guess the word within 8 attempts to keep the
-                programming world safe from Assembly!</p>
+                    programming world safe from Assembly!</p>
+                <h4>{`You have ${numGuessesLeft} guesses remaining`}</h4>
             </header>
 
             <section
