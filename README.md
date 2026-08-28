@@ -8,8 +8,6 @@ The project was built to strengthen and demonstrate practical React development 
 
 **Coming Soon...**
 
-> Replace the link above with your deployed application URL.
-
 ## 📸 Preview
 
 <!-- Add a screenshot or GIF of the application here -->
