@@ -19,6 +19,7 @@ main {
 
 header {
     text-align: center;
+    margin-bottom: 0;
 }
 
 header>h1 {
@@ -33,6 +34,13 @@ header>p {
     color: #8E8E8E;
 }
 
+header>h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #f8c704;
+    margin-bottom: 0;
+}
+
 section.game-status {
     display: flex;
     flex-direction: column;
@@ -43,7 +51,8 @@ section.game-status {
     max-width: 350px;
     min-height: 60px;
     border-radius: 4px;
-    margin-block: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 
 }
 
@@ -80,7 +89,7 @@ section.language-chips {
     gap: 5px;
     justify-content: center;
     max-width: 350px;
-    margin-bottom: 36px;
+    margin-bottom: 20px;
 }
 
 span.chip {
