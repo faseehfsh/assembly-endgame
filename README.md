@@ -6,7 +6,7 @@ The project was built to strengthen and demonstrate practical React development 
 
 ## 🚀 Live Demo
 
-**Coming Soon...**
+[Assembly: Endgame Demo](https://silver-fox-a1298a.netlify.app/)
 
 ## 📸 Preview
 
